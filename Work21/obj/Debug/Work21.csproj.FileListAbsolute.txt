@@ -1,0 +1,7 @@
+E:\Мои документы\Visual Studio 2017\Lab1\Work21\bin\Debug\Work21.exe.config
+E:\Мои документы\Visual Studio 2017\Lab1\Work21\bin\Debug\Work21.exe
+E:\Мои документы\Visual Studio 2017\Lab1\Work21\bin\Debug\Work21.pdb
+E:\Мои документы\Visual Studio 2017\Lab1\Work21\obj\Debug\Work21.csprojAssemblyReference.cache
+E:\Мои документы\Visual Studio 2017\Lab1\Work21\obj\Debug\Work21.csproj.CoreCompileInputs.cache
+E:\Мои документы\Visual Studio 2017\Lab1\Work21\obj\Debug\Work21.exe
+E:\Мои документы\Visual Studio 2017\Lab1\Work21\obj\Debug\Work21.pdb
