@@ -1,0 +1,7 @@
+E:\Мои документы\Visual Studio 2017\Lab1\Work22\obj\Debug\Work22.csprojAssemblyReference.cache
+E:\Мои документы\Visual Studio 2017\Lab1\Work22\obj\Debug\Work22.csproj.CoreCompileInputs.cache
+E:\Мои документы\Visual Studio 2017\Lab1\Work22\bin\Debug\Work22.exe.config
+E:\Мои документы\Visual Studio 2017\Lab1\Work22\bin\Debug\Work22.exe
+E:\Мои документы\Visual Studio 2017\Lab1\Work22\bin\Debug\Work22.pdb
+E:\Мои документы\Visual Studio 2017\Lab1\Work22\obj\Debug\Work22.exe
+E:\Мои документы\Visual Studio 2017\Lab1\Work22\obj\Debug\Work22.pdb

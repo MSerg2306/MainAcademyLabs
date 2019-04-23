@@ -1,0 +1,7 @@
+E:\Мои документы\Visual Studio 2017\Lab1\AirportPanel\bin\Debug\AirportPanel.exe.config
+E:\Мои документы\Visual Studio 2017\Lab1\AirportPanel\bin\Debug\AirportPanel.exe
+E:\Мои документы\Visual Studio 2017\Lab1\AirportPanel\bin\Debug\AirportPanel.pdb
+E:\Мои документы\Visual Studio 2017\Lab1\AirportPanel\obj\Debug\AirportPanel.csproj.CoreCompileInputs.cache
+E:\Мои документы\Visual Studio 2017\Lab1\AirportPanel\obj\Debug\AirportPanel.exe
+E:\Мои документы\Visual Studio 2017\Lab1\AirportPanel\obj\Debug\AirportPanel.pdb
+E:\Мои документы\Visual Studio 2017\Lab1\AirportPanel\obj\Debug\AirportPanel.csprojAssemblyReference.cache
