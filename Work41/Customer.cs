@@ -4,18 +4,18 @@ namespace Work41
 {
     class Customer
     {
-        private string CustomerName;
+        private string _customerName { get; set; }
         public Customer (string customerName)
         {
-            CustomerName = customerName;
+            _customerName = customerName;
         }
         public void GotNewGoods(object sender, GoodsInfoEventArgs e)
         {
-            Console.WriteLine($"{CustomerName} said: I want a {e.GoodsName}.");
+            Console.WriteLine($"{_customerName} said: I want a {e.GoodsName}.");
         }
         public void MissingOldGoods(object sender, GoodsInfoEventArgs e)
         {
-            Console.WriteLine($"{CustomerName} said: bad, I so wanted a {e.GoodsName}.");
+            Console.WriteLine($"{_customerName} said: bad, I so wanted a {e.GoodsName}.");
         }
     }
 }

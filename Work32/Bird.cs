@@ -4,44 +4,40 @@ namespace Work32
 {
     class Bird
     {
-        //Create fields and properties
         public int[] FlySpeed = {5, 15, 25, 35 };
-        public int NormalSpeed { get; set; }
-        public string Nick { get; set; }
-        private bool BirdFlewAway;
-        //Create constructors
+        private int _normalSpeed { get; set; }
+        private string _nick { get; set; }
+        private bool _birdFlewAway;
+
         public Bird() { }
         public Bird(string name,int speed)
         {
-            Nick = name;
-            NormalSpeed = speed;
-            if (NormalSpeed>0)
-                BirdFlewAway = true;
+            _nick = name;
+            _normalSpeed = speed;
+            if (_normalSpeed > 0)
+                _birdFlewAway = true;
             else
             { 
-                Console.WriteLine($"{Nick} will not fly away, enter a speed greater than 0");
-                BirdFlewAway = false;
+                Console.WriteLine($"{_nick} will not fly away, enter a speed greater than 0");
+                _birdFlewAway = false;
             }
         }
-        //Implement Method public void FlyAway( int incrmnt ) which check Bird state by reading field  BirdFlewAway
         public void FlyAway(int incrmnt)
         {
-            int CurrentSpeed = NormalSpeed;
-            // check BirdFlewAway
-            if (BirdFlewAway)
+            int CurrentSpeed = _normalSpeed;
+            if (_birdFlewAway)
             {
-                // increment the Bird speed by method argument
                 CurrentSpeed += incrmnt;
                 if (CurrentSpeed < FlySpeed[3])
                 {
-                    Console.WriteLine($"{Nick} flies with speed {CurrentSpeed}...");
+                    Console.WriteLine($"{_nick} flies with speed {CurrentSpeed}...");
                 }
                 else
-                { 
-                    BirdFlewAway = false;
-                    BirdFlewAwayException MyExeptions = new BirdFlewAwayException(string.Format("{0} flew with incredible speed!", Nick), "Oh! Startle.", DateTime.Now);
-                    MyExeptions.HelpLink = "http://en.wikipedia.org/wiki/Tufted_titmouse";
-                    throw MyExeptions;
+                {
+                    _birdFlewAway = false;
+                    BirdFlewAwayException myExeptions = new BirdFlewAwayException(string.Format("{0} flew with incredible speed!", _nick), "Oh! Startle.", DateTime.Now);
+                    myExeptions.HelpLink = "http://en.wikipedia.org/wiki/Tufted_titmouse";
+                    throw myExeptions;
                 }
             }
         }
