@@ -1,0 +1,34 @@
+﻿<ArrayOfExaminationStatusForXML>
+  <ExaminationStatusForXML>
+    <ExaminationStatusId>1</ExaminationStatusId>
+    <ExaminationStatusName>-Hе оплачен-</ExaminationStatusName>
+  </ExaminationStatusForXML>
+  <ExaminationStatusForXML>
+    <ExaminationStatusId>2</ExaminationStatusId>
+    <ExaminationStatusName>Ожидает оплаты</ExaminationStatusName>
+  </ExaminationStatusForXML>
+  <ExaminationStatusForXML>
+    <ExaminationStatusId>3</ExaminationStatusId>
+    <ExaminationStatusName>Оплачен</ExaminationStatusName>
+  </ExaminationStatusForXML>
+  <ExaminationStatusForXML>
+    <ExaminationStatusId>4</ExaminationStatusId>
+    <ExaminationStatusName>В работе модельера</ExaminationStatusName>
+  </ExaminationStatusForXML>
+  <ExaminationStatusForXML>
+    <ExaminationStatusId>5</ExaminationStatusId>
+    <ExaminationStatusName>На производстве</ExaminationStatusName>
+  </ExaminationStatusForXML>
+  <ExaminationStatusForXML>
+    <ExaminationStatusId>6</ExaminationStatusId>
+    <ExaminationStatusName>Произведен</ExaminationStatusName>
+  </ExaminationStatusForXML>
+  <ExaminationStatusForXML>
+    <ExaminationStatusId>7</ExaminationStatusId>
+    <ExaminationStatusName>Отгружен в Мед.Центр</ExaminationStatusName>
+  </ExaminationStatusForXML>
+  <ExaminationStatusForXML>
+    <ExaminationStatusId>8</ExaminationStatusId>
+    <ExaminationStatusName>Отдан клиенту</ExaminationStatusName>
+  </ExaminationStatusForXML>
+</ArrayOfExaminationStatusForXML>

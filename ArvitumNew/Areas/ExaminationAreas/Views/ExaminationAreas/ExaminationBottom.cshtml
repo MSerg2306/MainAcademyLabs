@@ -1,0 +1,600 @@
+﻿@using  ArvitumNew.Util
+@model ArvitumNew.Areas.ExaminationAreas.Models.ExaminationBottomViewModel
+@{
+    ViewBag.Title = "Обработка скана стоп";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="~/lib/jquery-ui/dist/css/jquery-ui.css">
+    @*<link rel="stylesheet" href="~/lib/bootstrap/dist/bootstrap.min.css" />*@
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="//ajax.aspnetcdn.com/ajax/jquery.ui/1.10.3/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="~/lib/bootstrap/dist/bootstrap-filestyle-1.2.3/bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/lib/bootstrap/dist/bootstrap-filestyle-1.2.3/bootstrap-filestyle.min.js"></script>
+    <script src="~/lib/tether/dist/js/tether.min.js"></script>
+
+    <style>
+        body {
+            font: 9pt Arial,sans-serif;
+        }
+
+        .input-element {
+            border: 0;
+            padding: 2px;
+            background: #fff;
+            width: 50px;
+        }
+
+        .round_L {
+            width: 10px;
+            height: 10px;
+            border: 2px solid red;
+            border-radius: 50%;
+            border: 1px solid #800000;
+            background-color: #800000;
+            position: absolute;
+        }
+
+        .round_R {
+            width: 10px;
+            height: 10px;
+            border: 2px solid red;
+            border-radius: 50%;
+            border: 1px solid #800000;
+            background-color: #800000;
+            position: absolute;
+            /*top: 320px;  Расстояние от верхнего края
+            left: 220px;  Расстояние от левого края */
+        }
+
+        .round_T {
+            width: 10px;
+            height: 10px;
+            border: 2px solid red;
+            border-radius: 50%;
+            border: 1px solid #008000; /* #ddd*/
+            background-color: #008000; /*#eee*/
+            position: absolute;
+        }
+
+        .round_D {
+            width: 10px;
+            height: 10px;
+            border: 2px solid red;
+            border-radius: 50%;
+            border: 1px solid #008000;
+            background-color: #008000;
+            position: absolute;
+        }
+
+        .start, .drag, .stop {
+            padding: 2px
+        }
+
+        #draggable {
+            cursor: pointer;
+        }
+
+        #containerL {
+            position: relative;
+            width: 244px;
+            height: 644px;
+            border: 2px solid #ccc;
+            padding: 0px; /* было 10 */
+        }
+
+        #containerR {
+            position: relative;
+            width: 244px;
+            height: 644px;
+            border: 2px solid #ccc;
+            padding: 0px;
+            background-image: url(C:\Windows\Temp\R.jpg);
+        }
+
+        img {
+            width: auto; /* Ширина изображений */
+            height: 100%; /* Высота изображении */
+            object-fit: cover; /* Вписываем фотографию в область */
+        }
+    </style>
+</head>
+
+<body>
+    <form name="coord" method="post" enctype="multipart/form-data">
+        @using (Html.BeginForm())
+        {
+            <div class="form-group">
+                <input type="hidden" asp-for="ExaminationId" />
+                <input type="hidden" asp-for="ShoesSizeLId" />
+                <input type="hidden" asp-for="ShoesSizeRId" />
+                <input type="hidden" asp-for="ImageDataLeft" />
+                <input type="hidden" asp-for="ImageDataRight" />
+            </div>
+            <table class="table-condensed">
+                <tr>
+                    <td width="30%" valign="top">
+                        <table class="table-condensed">
+                            <tr>
+                                <td>
+                                    <div>
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <h3 align="center"><span lang="ru">Ручная загрузка сканов</span></h3>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    Левая стопа
+                                                    <input type="file" class="form-control-file" name="FormFileStreamLeft" id="FormFileStreamLeft">
+                                                    <br />
+                                                    Правая стопа
+                                                    <input type="file" class="form-control-file" name="FormFileStreamRight" id="FormFileStreamRight">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <br />
+                                                    <button align="center" name="submit" type="submit" class="btn btn-warning" value="UploadFoto">
+                                                        <span class="glyphicon glyphicon-download-alt"></span>
+                                                        Загрузить фото
+                                                    </button>
+                                                    <br />
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <h3></h3>
+                                        <table border="1" id="table2">
+                                            <tr>
+                                                <td colspan="8">
+                                                    <h3 align="center"><span lang="ru">Данные измерений</span></h3>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="4" align="center">
+                                                    <h4><span lang="ru">Левая нога</span></h4>
+                                                </td>
+                                                <td colspan="4" align="center">
+                                                    <h4><span lang="ru">Правая нога</span></h4>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <b>Left= </b><br />
+                                                    <input name="LLX" type="text" class="input-element"><br />
+                                                    <b> - </b><br />
+                                                    <input name="LLY" type="text" class="input-element">
+                                                </td>
+                                                <td>
+                                                    <b>Right= </b><br />
+                                                    <input name="LRX" type="text" class="input-element"><br />
+                                                    <b> - </b><br />
+                                                    <input name="LRY" type="text" class="input-element">
+                                                </td>
+                                                <td>
+                                                    <b>Top= </b><br />
+                                                    <input name="LTX" type="text" class="input-element"><br />
+                                                    <b> - </b><br />
+                                                    <input name="LTY" type="text" class="input-element">
+                                                </td>
+                                                <td>
+                                                    <b>Down= </b><br />
+                                                    <input name="LDX" type="text" class="input-element"><br />
+                                                    <b> - </b><br />
+                                                    <input name="LDY" type="text" class="input-element">
+                                                </td>
+                                                <td>
+                                                    <b>Left= </b><br />
+                                                    <input name="RLX" type="text" class="input-element"><br />
+                                                    <b> - </b><br />
+                                                    <input name="RLY" type="text" class="input-element">
+                                                </td>
+                                                <td>
+                                                    <b>Right= </b><br />
+                                                    <input name="RRX" type="text" class="input-element"><br />
+                                                    <b> - </b><br />
+                                                    <input name="RRY" type="text" class="input-element">
+                                                </td>
+                                                <td>
+                                                    <b>Top= </b><br />
+                                                    <input name="RTX" type="text" class="input-element"><br />
+                                                    <b> - </b><br />
+                                                    <input name="RTY" type="text" class="input-element">
+                                                </td>
+                                                <td>
+                                                    <b>Down= </b><br />
+                                                    <input name="RDX" type="text" class="input-element"><br />
+                                                    <b> - </b><br />
+                                                    <input name="RDY" type="text" class="input-element">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2" lang="ru">
+                                                    <b>Ширина (PX) = </b>
+                                                    <div class="widthL"><span class="width">0</span></div>
+                                                </td>
+                                                <td colspan="2" lang="ru">
+                                                    <b>Длина (PX) = </b>
+                                                    <div class="lengthL"><span class="length">0</span></div>
+                                                </td>
+                                                <td colspan="2" lang="ru">
+                                                    <b>Ширина (PX) = </b>
+                                                    <div class="widthR"><span class="width">0</span></div>
+                                                </td>
+                                                <td colspan="2" lang="ru">
+                                                    <b>Длина (PX) = </b>
+                                                    <div class="lengthR"><span class="length">0</span></div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <h3></h3>
+                                        <table>
+                                            <tr>
+                                                <td colspan="8" lang="ru">
+                                                    <br />
+                                                    <button align="center" name="submit" type="submit" class="btn btn-success" value="Calc">
+                                                        <span class="glyphicon glyphicon-scale"></span>
+                                                        Рассчитать расстояние и размер
+                                                    </button>
+                                                    <br />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="4" lang="ru">
+                                                    <b>Ширина (CM) = @ViewBag.WidthL</b>
+                                                    <br />
+                                                    <b>Длина (CM) = @ViewBag.LeghtL</b>
+                                                </td>
+                                                <td colspan="4" lang="ru">
+                                                    <b>Ширина (CM) = @ViewBag.WidthR</b>
+                                                    <br />
+                                                    <b>Длина (CM) = @ViewBag.LeghtR</b>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="4" lang="ru">
+                                                    <b>Размер = @ViewBag.ShoesSizeLName</b>
+                                                </td>
+                                                <td colspan="4" lang="ru">
+                                                    <b>Размер = @ViewBag.ShoesSizeRName</b>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <button align="center" name="submit" type="submit" class="btn btn-success" value="Save">
+                                        <span class="glyphicon glyphicon-floppy-saved"></span>
+                                        Сохранить
+                                    </button>
+                                    <button align="center" name="submit" type="submit" class="btn btn-info" value="Cansel">
+                                        <span class="glyphicon glyphicon-new-window"></span>
+                                        Назад
+                                    </button>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td width="70%" valign="top">
+                        <table class="table-condensed">
+                            <tr>
+                                <td>
+                                    <div id="containerL">
+                                        @if (Model.ImageDataLeft != null)
+                                        {
+                                            @Html.Raw("<img src=\"data:image/jpeg;base64," + Convert.ToBase64String(Model.ImageDataLeft) + "\" />");
+                                        }
+                                        <div id="point_LL" class="round_L"
+                                             data-toggle="tooltip" data-placement="left" title="Левая граница">
+                                        </div>
+                                        <div id="point_LR" class="round_R"
+                                             data-toggle="tooltip" data-placement="left" title="Правая граница">
+                                        </div>
+                                        <div id="point_LT" class="round_T"
+                                             data-toggle="tooltip" data-placement="left" title="Верхняя граница">
+                                        </div>
+                                        <div id="point_LD" class="round_D"
+                                             data-toggle="tooltip" data-placement="left" title="Нижняя граница">
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div id="containerR">
+                                        @if (Model.ImageDataRight != null)
+                                        {
+                                            @Html.Raw("<img src=\"data:image/jpeg;base64," + Convert.ToBase64String(Model.ImageDataRight) + "\" />");
+                                        }
+                                        <div id="point_RL" class="round_L"
+                                             data-toggle="tooltip" data-placement="left" title="Левая граница">
+                                        </div>
+                                        <div id="point_RR" class="round_R"
+                                             data-toggle="tooltip" data-placement="left" title="Правая граница">
+                                        </div>
+                                        <div id="point_RT" class="round_T"
+                                             data-toggle="tooltip" data-placement="left" title="Верхняя граница">
+                                        </div>
+                                        <div id="point_RD" class="round_D"
+                                             data-toggle="tooltip" data-placement="left" title="Нижняя граница">
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        }
+    </form>
+
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+
+        var XA3 = 29.7;
+        var YA3 = 42;
+        var XImg = 240;
+        var YImg = 640;
+
+        var f = document.forms.coord;
+
+        var $widthL = $(".widthL");
+        var $lengthL = $(".lengthL");
+        var potion_LL = [Number('@Model.LLX'), Number('@Model.LLY'), Number('@Model.LLX'), Number('@Model.LLY')];
+        var potion_LR = [Number('@Model.LRX'), Number('@Model.LRY'), Number('@Model.LRX'), Number('@Model.LRY')];
+        var potion_LT = [Number('@Model.LTX'), Number('@Model.LTY'), Number('@Model.LTX'), Number('@Model.LTY')];
+        var potion_LD = [Number('@Model.LDX'), Number('@Model.LDY'), Number('@Model.LDX'), Number('@Model.LDY')];
+
+        document.getElementById('point_LL').style.left = potion_LL[0] + 'px';
+        document.getElementById('point_LL').style.top = potion_LL[1] + 'px';
+        document.getElementById('point_LR').style.left = potion_LR[0] + 'px';
+        document.getElementById('point_LR').style.top = potion_LR[1] + 'px';
+        document.getElementById('point_LT').style.left = potion_LT[0] + 'px';
+        document.getElementById('point_LT').style.top = potion_LT[1] + 'px';
+        document.getElementById('point_LD').style.left = potion_LD[0] + 'px';
+        document.getElementById('point_LD').style.top = potion_LD[1] + 'px';
+        f.LLX.value = potion_LL[0];
+        f.LLY.value = potion_LL[1];
+        f.LRX.value = potion_LR[0];
+        f.LRY.value = potion_LR[1];
+        f.LTX.value = potion_LT[0];
+        f.LTY.value = potion_LT[1];
+        f.LDX.value = potion_LD[0];
+        f.LDY.value = potion_LD[1];
+        $("span.width", $widthL).text(Math.sqrt(Math.pow(potion_LR[0] - potion_LL[0], 2) + Math.pow(potion_LR[1] - potion_LL[1], 2)).toFixed(2));
+        $("span.length", $lengthL).text(Math.sqrt(Math.pow(potion_LD[0] - potion_LT[0], 2) + Math.pow(potion_LD[1] - potion_LT[1], 2)).toFixed(2));
+        /*$("span.width", $widthLCM).text(Math.sqrt(Math.pow(potion_LR[0] * (XA3 / XImg) - potion_LL[0] * (XA3 / XImg), 2) + Math.pow(potion_LR[1] * (YA3 / YImg) - potion_LL[1] * (YA3 / YImg), 2)).toFixed(2));
+        $("span.length", $lengthLCM).text(Math.sqrt(Math.pow(potion_LD[0] * (XA3 / XImg) - potion_LT[0] * (XA3 / XImg), 2) + Math.pow(potion_LD[1] * (YA3 / YImg) - potion_LT[1] * (YA3 / YImg), 2)).toFixed(2));*/
+
+        $("#point_LL").draggable({ containment: "#containerL", scroll: false });
+        $("#point_LL").draggable({
+            start: function (event, ui) { },
+
+            drag: function (event, ui) {
+                potion_LL[0] = $(this).position().left + 5;
+                potion_LL[1] = $(this).position().top + 5;
+                f.LLX.value = potion_LL[0];
+                f.LLY.value = potion_LL[1];
+
+                $("span.width", $widthL).text(Math.sqrt(Math.pow(potion_LR[0] - potion_LL[0], 2) + Math.pow(potion_LR[1] - potion_LL[1], 2)).toFixed(2));
+                /*$("span.width", $widthLCM).text(Math.sqrt(Math.pow(potion_LR[0] * (XA3 / XImg) - potion_LL[0] * (XA3 / XImg), 2) + Math.pow(potion_LR[1] * (YA3 / YImg) - potion_LL[1] * (YA3 / YImg), 2)).toFixed(2));*/
+            },
+            stop: function (event, ui) {
+                potion_LL[2] = $(this).position().left;
+                potion_LL[3] = $(this).position().top;
+                f.LLX.value = potion_LL[2];
+                f.LLY.value = potion_LL[3];
+
+                $("span.width", $widthL).text(Math.sqrt(Math.pow(potion_LR[2] - potion_LL[2], 2) + Math.pow(potion_LR[3] - potion_LL[3], 2)).toFixed(2));
+                /*$("span.width", $widthLCM).text(Math.sqrt(Math.pow(potion_LR[2] * (XA3 / XImg) - potion_LL[2] * (XA3 / XImg), 2) + Math.pow(potion_LR[3] * (YA3 / YImg) - potion_LL[3] * (YA3 / YImg), 2)).toFixed(2));*/
+            }
+        });
+
+        $("#point_LR").draggable({ containment: "#containerL", scroll: false });
+        $("#point_LR").draggable({
+            start: function (event, ui) { },
+
+            drag: function (event, ui) {
+                potion_LR[0] = $(this).position().left;
+                potion_LR[1] = $(this).position().top;
+                f.LRX.value = potion_LR[0];
+                f.LRY.value = potion_LR[1];
+
+                $("span.width", $widthL).text(Math.sqrt(Math.pow(potion_LR[0] - potion_LL[0], 2) + Math.pow(potion_LR[1] - potion_LL[1], 2)).toFixed(2));
+                /*$("span.width", $widthLCM).text(Math.sqrt(Math.pow(potion_LR[0] * (XA3 / XImg) - potion_LL[0] * (XA3 / XImg), 2) + Math.pow(potion_LR[1] * (YA3 / YImg) - potion_LL[1] * (YA3 / YImg), 2)).toFixed(2));*/
+            },
+            stop: function (event, ui) {
+                potion_LR[2] = $(this).position().left;
+                potion_LR[3] = $(this).position().top;
+                f.LRX.value = potion_LR[2];
+                f.LRY.value = potion_LR[3];
+
+                $("span.width", $widthL).text(Math.sqrt(Math.pow(potion_LR[2] - potion_LL[2], 2) + Math.pow(potion_LR[3] - potion_LL[3], 2)).toFixed(2));
+                /*$("span.width", $widthLCM).text(Math.sqrt(Math.pow(potion_LR[2] * (XA3 / XImg) - potion_LL[2] * (XA3 / XImg), 2) + Math.pow(potion_LR[3] * (YA3 / YImg) - potion_LL[3] * (YA3 / YImg), 2)).toFixed(2));*/
+            }
+        });
+
+        $("#point_LT").draggable({ containment: "#containerL", scroll: false });
+        $("#point_LT").draggable({
+            start: function (event, ui) { },
+
+            drag: function (event, ui) {
+                potion_LT[0] = $(this).position().left;
+                potion_LT[1] = $(this).position().top;
+                f.LTX.value = potion_LT[0];
+                f.LTY.value = potion_LT[1];
+
+                $("span.length", $lengthL).text(Math.sqrt(Math.pow(potion_LD[0] - potion_LT[0], 2) + Math.pow(potion_LD[1] - potion_LT[1], 2)).toFixed(2));
+                /*$("span.length", $lengthLCM).text(Math.sqrt(Math.pow(potion_LD[0] * (XA3 / XImg) - potion_LT[0] * (XA3 / XImg), 2) + Math.pow(potion_LD[1] * (YA3 / YImg) - potion_LT[1] * (YA3 / YImg), 2)).toFixed(2));*/
+            },
+            stop: function (event, ui) {
+                potion_LT[2] = $(this).position().left;
+                potion_LT[3] = $(this).position().top;
+                f.LTX.value = potion_LT[2];
+                f.LTY.value = potion_LT[3];
+
+                $("span.length", $lengthL).text(Math.sqrt(Math.pow(potion_LD[2] - potion_LT[2], 2) + Math.pow(potion_LD[3] - potion_LT[3], 2)).toFixed(2));
+                /*$("span.length", $lengthLCM).text(Math.sqrt(Math.pow(potion_LD[2] * (XA3 / XImg) - potion_LT[2] * (XA3 / XImg), 2) + Math.pow(potion_LD[3] * (YA3 / YImg) - potion_LT[3] * (YA3 / YImg), 2)).toFixed(2));*/
+            }
+        });
+
+        $("#point_LD").draggable({ containment: "#containerL", scroll: false });
+        $("#point_LD").draggable({
+            start: function (event, ui) { },
+
+            drag: function (event, ui) {
+                potion_LD[0] = $(this).position().left;
+                potion_LD[1] = $(this).position().top;
+                f.LDX.value = potion_LD[0];
+                f.LDY.value = potion_LD[1];
+
+                $("span.length", $lengthL).text(Math.sqrt(Math.pow(potion_LD[0] - potion_LT[0], 2) + Math.pow(potion_LD[1] - potion_LT[1], 2)).toFixed(2));
+                /*$("span.length", $lengthLCM).text(Math.sqrt(Math.pow(potion_LD[0] * (XA3 / XImg) - potion_LT[0] * (XA3 / XImg), 2) + Math.pow(potion_LD[1] * (YA3 / YImg) - potion_LT[1] * (YA3 / YImg), 2)).toFixed(2));*/
+            },
+            stop: function (event, ui) {
+                potion_LD[2] = $(this).position().left;
+                potion_LD[3] = $(this).position().top;
+                f.LDX.value = potion_LD[2];
+                f.LDY.value = potion_LD[3];
+
+                $("span.length", $lengthL).text(Math.sqrt(Math.pow(potion_LD[2] - potion_LT[2], 2) + Math.pow(potion_LD[3] - potion_LT[3], 2)).toFixed(2));
+                /*$("span.length", $lengthLCM).text(Math.sqrt(Math.pow(potion_LD[2] * (XA3 / XImg) - potion_LT[2] * (XA3 / XImg), 2) + Math.pow(potion_LD[3] * (YA3 / YImg) - potion_LT[3] * (YA3 / YImg), 2)).toFixed(2));*/
+            }
+        });
+
+        var $widthR = $(".widthR");
+        var $lengthR = $(".lengthR");
+        var potion_RL = [Number('@Model.RLX'), Number('@Model.RLY'), Number('@Model.RLX'), Number('@Model.RLY')];
+        var potion_RR = [Number('@Model.RRX'), Number('@Model.RRY'), Number('@Model.RRX'), Number('@Model.RRY')];
+        var potion_RT = [Number('@Model.RTX'), Number('@Model.RTY'), Number('@Model.RTX'), Number('@Model.RTY')];
+        var potion_RD = [Number('@Model.RDX'), Number('@Model.RDY'), Number('@Model.RDX'), Number('@Model.RDY')];
+
+        document.getElementById('point_RL').style.left = potion_RL[0] + 'px';
+        document.getElementById('point_RL').style.top = potion_RL[1] + 'px';
+        document.getElementById('point_RR').style.left = potion_RR[0] + 'px';
+        document.getElementById('point_RR').style.top = potion_RR[1] + 'px';
+        document.getElementById('point_RT').style.left = potion_RT[0] + 'px';
+        document.getElementById('point_RT').style.top = potion_RT[1] + 'px';
+        document.getElementById('point_RD').style.left = potion_RD[0] + 'px';
+        document.getElementById('point_RD').style.top = potion_RD[1] + 'px';
+        f.RLX.value = potion_RL[0];
+        f.RLY.value = potion_RL[1];
+        f.RRX.value = potion_RR[0];
+        f.RRY.value = potion_RR[1];
+        f.RTX.value = potion_RT[0];
+        f.RTY.value = potion_RT[1];
+        f.RDX.value = potion_RD[0];
+        f.RDY.value = potion_RD[1];
+        $("span.width", $widthR).text(Math.sqrt(Math.pow(potion_RR[0] - potion_RL[0], 2) + Math.pow(potion_RR[1] - potion_RL[1], 2)).toFixed(2));
+        $("span.length", $lengthR).text(Math.sqrt(Math.pow(potion_RD[0] - potion_RT[0], 2) + Math.pow(potion_RD[1] - potion_RT[1], 2)).toFixed(2));
+        /*$("span.width", $widthRCM).text(Math.sqrt(Math.pow(potion_RR[0] * (XA3 / XImg) - potion_RL[0] * (XA3 / XImg), 2) + Math.pow(potion_RR[1] * (YA3 / YImg) - potion_RL[1] * (YA3 / YImg), 2)).toFixed(2));
+        $("span.length", $lengthRCM).text(Math.sqrt(Math.pow(potion_RD[0] * (XA3 / XImg) - potion_RT[0] * (XA3 / XImg), 2) + Math.pow(potion_RD[1] * (YA3 / YImg) - potion_RT[1] * (YA3 / YImg), 2)).toFixed(2));*/
+
+        $("#point_RL").draggable({ containment: "#containerR", scroll: false });
+        $("#point_RL").draggable({
+            start: function (event, ui) { },
+
+            drag: function (event, ui) {
+                potion_RL[0] = $(this).position().left;
+                potion_RL[1] = $(this).position().top;
+                f.RLX.value = potion_RL[0];
+                f.RLY.value = potion_RL[1];
+
+                $("span.width", $widthR).text(Math.sqrt(Math.pow(potion_RR[0] - potion_RL[0], 2) + Math.pow(potion_RR[1] - potion_RL[1], 2)).toFixed(2));
+                /*$("span.width", $widthRCM).text(Math.sqrt(Math.pow(potion_RR[0] * (XA3 / XImg) - potion_RL[0] * (XA3 / XImg), 2) + Math.pow(potion_RR[1] * (YA3 / YImg) - potion_RL[1] * (YA3 / YImg), 2)).toFixed(2));*/
+            },
+            stop: function (event, ui) {
+                potion_RL[2] = $(this).position().left;
+                potion_RL[3] = $(this).position().top;
+                f.RLX.value = potion_RL[2];
+                f.RLY.value = potion_RL[3];
+
+                $("span.width", $widthR).text(Math.sqrt(Math.pow(potion_RR[2] - potion_RL[2], 2) + Math.pow(potion_RR[3] - potion_RL[3], 2)).toFixed(2));
+                /*$("span.width", $widthRCM).text(Math.sqrt(Math.pow(potion_RR[2] * (XA3 / XImg) - potion_RL[2] * (XA3 / XImg), 2) + Math.pow(potion_RR[3] * (YA3 / YImg) - potion_RL[3] * (YA3 / YImg), 2)).toFixed(2));*/
+            }
+        });
+
+        $("#point_RR").draggable({ containment: "#containerR", scroll: false });
+        $("#point_RR").draggable({
+            start: function (event, ui) { },
+
+            drag: function (event, ui) {
+                potion_RR[0] = $(this).position().left;
+                potion_RR[1] = $(this).position().top;
+                f.RRX.value = potion_RR[0];
+                f.RRY.value = potion_RR[1];
+
+                $("span.width", $widthR).text(Math.sqrt(Math.pow(potion_RR[0] - potion_RL[0], 2) + Math.pow(potion_RR[1] - potion_RL[1], 2)).toFixed(2));
+                /*$("span.width", $widthRCM).text(Math.sqrt(Math.pow(potion_RR[0] * (XA3 / XImg) - potion_RL[0] * (XA3 / XImg), 2) + Math.pow(potion_RR[1] * (YA3 / YImg) - potion_RL[1] * (YA3 / YImg), 2)).toFixed(2));*/
+            },
+            stop: function (event, ui) {
+                potion_RR[2] = $(this).position().left;
+                potion_RR[3] = $(this).position().top;
+                f.RRX.value = potion_RR[2];
+                f.RRY.value = potion_RR[3];
+
+                $("span.width", $widthR).text(Math.sqrt(Math.pow(potion_RR[2] - potion_RL[2], 2) + Math.pow(potion_RR[3] - potion_RL[3], 2)).toFixed(2));
+                /*$("span.width", $widthRCM).text(Math.sqrt(Math.pow(potion_RR[2] * (XA3 / XImg) - potion_RL[2] * (XA3 / XImg), 2) + Math.pow(potion_RR[3] * (YA3 / YImg) - potion_RL[3] * (YA3 / YImg), 2)).toFixed(2));*/
+            }
+        });
+
+        $("#point_RT").draggable({ containment: "#containerR", scroll: false });
+        $("#point_RT").draggable({
+            start: function (event, ui) { },
+
+            drag: function (event, ui) {
+                potion_RT[0] = $(this).position().left;
+                potion_RT[1] = $(this).position().top;
+                f.RTX.value = potion_RT[0];
+                f.RTY.value = potion_RT[1];
+
+                $("span.length", $lengthR).text(Math.sqrt(Math.pow(potion_RD[0] - potion_RT[0], 2) + Math.pow(potion_RD[1] - potion_RT[1], 2)).toFixed(2));
+                /*$("span.length", $lengthRCM).text(Math.sqrt(Math.pow(potion_RD[0] * (XA3 / XImg) - potion_RT[0] * (XA3 / XImg), 2) + Math.pow(potion_RD[1] * (YA3 / YImg) - potion_RT[1] * (YA3 / YImg), 2)).toFixed(2));*/
+            },
+            stop: function (event, ui) {
+                potion_RT[2] = $(this).position().left;
+                potion_RT[3] = $(this).position().top;
+                f.RTX.value = potion_RT[2];
+                f.RTY.value = potion_RT[3];
+
+                $("span.length", $lengthR).text(Math.sqrt(Math.pow(potion_RD[2] - potion_RT[2], 2) + Math.pow(potion_RD[3] - potion_RT[3], 2)).toFixed(2));
+                /*$("span.length", $lengthRCM).text(Math.sqrt(Math.pow(potion_RD[2] * (XA3 / XImg) - potion_RT[2] * (XA3 / XImg), 2) + Math.pow(potion_RD[3] * (YA3 / YImg) - potion_RT[3] * (YA3 / YImg), 2)).toFixed(2));*/
+            }
+        });
+
+        $("#point_RD").draggable({ containment: "#containerR", scroll: false });
+        $("#point_RD").draggable({
+            start: function (event, ui) { },
+
+            drag: function (event, ui) {
+                potion_RD[0] = $(this).position().left;
+                potion_RD[1] = $(this).position().top;
+                f.RDX.value = potion_RD[0];
+                f.RDY.value = potion_RD[1];
+
+                $("span.length", $lengthR).text(Math.sqrt(Math.pow(potion_RD[0] - potion_RT[0], 2) + Math.pow(potion_RD[1] - potion_RT[1], 2)).toFixed(2));
+                /*$("span.length", $lengthRCM).text(Math.sqrt(Math.pow(potion_RD[0] * (XA3 / XImg) - potion_RT[0] * (XA3 / XImg), 2) + Math.pow(potion_RD[1] * (YA3 / YImg) - potion_RT[1] * (YA3 / YImg), 2)).toFixed(2));*/
+            },
+            stop: function (event, ui) {
+                potion_RD[2] = $(this).position().left;
+                potion_RD[3] = $(this).position().top;
+                f.RDX.value = potion_RD[2];
+                f.RDY.value = potion_RD[3];
+
+                $("span.length", $lengthR).text(Math.sqrt(Math.pow(potion_RD[2] - potion_RT[2], 2) + Math.pow(potion_RD[3] - potion_RT[3], 2)).toFixed(2));
+                /*$("span.length", $lengthRCM).text(Math.sqrt(Math.pow(potion_RD[2] * (XA3 / XImg) - potion_RT[2] * (XA3 / XImg), 2) + Math.pow(potion_RD[3] * (YA3 / YImg) - potion_RT[3] * (YA3 / YImg), 2)).toFixed(2));*/
+            }
+        });
+
+    </script>
+
+</body>
+</html>

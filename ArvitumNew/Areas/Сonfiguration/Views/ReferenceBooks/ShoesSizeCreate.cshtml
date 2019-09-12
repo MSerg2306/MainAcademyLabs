@@ -1,0 +1,26 @@
+﻿@model ArvitumNew.Areas.Сonfiguration.Models.ShoesSizeCreateViewModel
+@{
+    ViewBag.Title = "Добавление размера";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Добавление размера</h2>
+
+<form asp-action="ShoesSizeCreate" asp-controller="ReferenceBooks">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="FootLength" class="control-label">Длина стопы</label>
+        <input type="number" data-decimals="2" step="0.1" asp-for="FootLength" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Size" class="control-label">Размер</label>
+        <input type="number" data-decimals="2" step="0.1" asp-for="Size" class="form-control" />
+    </div>
+    <div class="form-group">
+        <a title="Отмена"
+           class="btn btn-primary" asp-area="Сonfiguration" asp-controller="ReferenceBooks" asp-action="ShoesSizeList">
+            Отмена
+        </a>
+        <input type="submit" value="Добавить" class="btn btn-success" />
+    </div>
+</form>

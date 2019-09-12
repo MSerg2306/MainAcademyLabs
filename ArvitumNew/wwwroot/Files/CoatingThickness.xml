@@ -1,0 +1,18 @@
+﻿<ArrayOfCoatingThicknessForXML>
+  <CoatingThicknessForXML>
+    <CoatingThicknessId>1</CoatingThicknessId>
+    <CoatingThicknessName>-Толщина покрытия не определена-</CoatingThicknessName>
+  </CoatingThicknessForXML>
+  <CoatingThicknessForXML>
+    <CoatingThicknessId>2</CoatingThicknessId>
+    <CoatingThicknessName>На усмотрение модельера</CoatingThicknessName>
+  </CoatingThicknessForXML>
+  <CoatingThicknessForXML>
+    <CoatingThicknessId>3</CoatingThicknessId>
+    <CoatingThicknessName>Утолщенная</CoatingThicknessName>
+  </CoatingThicknessForXML>
+  <CoatingThicknessForXML>
+    <CoatingThicknessId>4</CoatingThicknessId>
+    <CoatingThicknessName>Эластичка</CoatingThicknessName>
+  </CoatingThicknessForXML>
+</ArrayOfCoatingThicknessForXML>

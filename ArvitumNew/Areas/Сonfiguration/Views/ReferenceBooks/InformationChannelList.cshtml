@@ -1,0 +1,76 @@
+﻿@using ArvitumNew.Areas.Сonfiguration.Models
+@model InformationChannelListViewModel
+@addTagHelper "*, ArvitumNew"
+@{
+    ViewBag.Title = "Справочник каналов";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h2>Справочник каналов привлечения клиентов</h2>
+
+<!-- кусок фильтра по названию и компании-->
+<form method="get">
+    <div class="form-inline">
+
+        <div class="form-group col-md-10">
+            <label class="control-label">Активен/Скрыт:</label>
+            @Html.DropDownList("activ", Model.SelectedListViev, htmlAttributes: new { @class = "form-control" })
+
+            <input type="submit" value="Фильтр" class="btn btn-sm btn-primary" name="submit" />
+        </div>
+
+        <div class="form-group col-md-2">
+            <a class="btn btn-sm btn-success" asp-area="Сonfiguration" asp-controller="ReferenceBooks" asp-action="InformationChannelCreate">
+                Новый тип
+            </a>
+        </div>
+
+    </div>
+</form>
+
+<h3> </h3>
+
+<table class="table">
+    <!-- кусок сортировки по колонкам -->
+    <tr>
+        <th>
+            <a asp-action="ShoesTypeList" asp-route-sortOrder="@(Model.SortViewModel.NameSort)"
+               asp-route-activ="@(Model.FilterViewModel.SelectedActiv)">
+                Тип изделия
+            </a>
+        </th>
+        <td>
+            Активен/Скрыт
+        </td>
+        <th> </th>
+    </tr>
+
+    <!-- тело таблицы -->
+    @foreach (var informationChannel in Model.InformationChannels)
+    {
+        <tr>
+            <td>@informationChannel.InformationChannelName</td>
+            <td>@informationChannel.Activ</td>
+            <td>
+                <div data-toggle="tooltip" data-placement="down">
+                    <a title="Редактировать"
+                       class="btn btn-sm btn-success" asp-area="Сonfiguration" asp-controller="ReferenceBooks" asp-action="InformationChannelEdit" asp-route-Id="@informationChannel.InformationChannelId">
+                        <span class="glyphicon glyphicon-edit"></span>
+                    </a>
+                </div>
+            </td>
+        </tr>
+    }
+</table>
+
+<!-- постраничная навигация через tag-хелпер-->
+<page-link page-model="Model.PageViewModel" page-action="InformationChannelList"
+           page-url-activ="@(Model.FilterViewModel.SelectedActiv)"
+           page-url-sortorder="@(Model.SortViewModel.Current)"></page-link>
+
+<script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+</script>

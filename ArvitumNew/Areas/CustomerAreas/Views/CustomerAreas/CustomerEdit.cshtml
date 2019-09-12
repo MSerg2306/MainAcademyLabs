@@ -1,0 +1,90 @@
+﻿@model ArvitumNew.Areas.CustomerAreas.Models.CustomerEditViewModel
+
+@{
+    ViewData["Title"] = "Редактирование данных клиента";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Редактирование данных клиента</h2>
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
+    <script src="~/lib/bootstrap/dist/js/bootstrap-formhelpers-phone.js"></script>
+</head>
+
+<body>
+    <form asp-controller="CustomerAreas" asp-action="CustomerEdit">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        @using (Html.BeginForm())
+        {
+            <div class="form-group">
+                <input type="hidden" asp-for="Id" />
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="NameWorkPlace" class="col-md-2 control-label">Мед.центр</label>
+                <div class="col-md-10">
+                    <select asp-for="NameWorkPlace" asp-items="ViewBag.workPlaces" class="form-control"></select><br />
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="FirstName" class="col-md-2 control-label">Фимилия</label>
+                <div class="col-md-4">
+                    <input type="text" asp-for="FirstName" class="form-control" /><br />
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName" class="col-md-2 control-label">Имя отчество</label>
+                <div class="col-md-4">
+                    <input type="text" asp-for="LastName" class="form-control" /><br />
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Birthday" class="col-md-2 control-label">День рождения</label>
+                <div class="col-md-4">
+                    <input type="date" asp-for="Birthday" class="form-control" /><br />
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Phone" class="col-md-2 control-label">Телефон</label>
+                <div class="col-md-4">
+                    <input type="text" asp-for="Phone" class="form-control input-medium bfh-phone" data-format="+38 (ddd) ddd-dd-dd" /><br />
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="col-md-2 control-label">Email</label>
+                <div class="col-md-4">
+                    <input type="email" asp-for="Email" class="form-control" /><br />
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="InformationChannelName" class="col-md-2 control-label">Канал</label>
+                <div class="col-md-4">
+                    <select asp-for="InformationChannelName" asp-items="ViewBag.informationChannels" class="form-control"></select><br />
+                </div>
+            </div>
+            @if (User.IsInRole("admin"))
+            {
+                <div class="form-group">
+                    <label class="col-md-2 control-label"></label>
+                    <div class="col-md-4">
+                        @Html.CheckBoxFor(x => x.Activ)
+                        @Html.LabelFor(x => x.Activ)
+                    </div>
+                </div>
+            }
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <button name="submit" type="submit" class="btn btn-primary" value="Cansel">Отмена</button>
+                    <button name="submit" type="submit" class="btn btn-warning" value="Edit">Редактировать</button>
+                    <button name="submit" type="submit" class="btn btn-danger" value="Delete">Удалить</button>
+                </div>
+            </div>
+        }
+    </form>
+</body>
+</html>
+

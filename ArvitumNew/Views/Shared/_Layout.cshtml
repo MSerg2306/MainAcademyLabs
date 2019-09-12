@@ -1,0 +1,106 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewData["Title"]</title>
+
+    <meta http-equiv="Content-Type" charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap-responsive.css" />
+    <link rel="stylesheet" href="~/lib/jquery-ui/dist/css/jquery-ui.css">
+    <script src="~/lib/jquery-ui/dist/js/jquery-ui.min.js"></script>
+    <script src="~/lib/tether/dist/js/tether.min.js"></script>
+</head>
+
+<body>
+    <nav class="navbar-fixed-top">
+        <nav>
+            <partial name="_LoginPartial" />
+        </nav>
+        <!--меню-->
+        <!--основной контент-->
+        <div class="container body-content">
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="span3">
+                        <div class="btn-group-vertical">
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                @if (User.IsInRole("admin"))
+                                {
+                                    <div class="btn-group">
+                                        <button class="btn btn-success dropdown-toggle" data-toggle="dropdown">Роли и пользователи <span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a asp-area="Identity" asp-controller="Users" asp-action="Index">Список пользователей</a></li>
+                                            <li><a asp-area="Identity" asp-controller="Roles" asp-action="UserList">Редактор прав доступа </a></li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="btn-group">
+                                        <button class="btn btn-success dropdown-toggle" data-toggle="dropdown">Основные справочники <span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a asp-area="Сonfiguration" asp-controller="CityWorkPlace" asp-action="Index">Список Мед.Центров </a></li>
+                                            <li><a asp-area="Сonfiguration" asp-controller="ReferenceBooks" asp-action="ShoesTypeList">Типы изделий </a></li>
+                                            <li><a asp-area="Сonfiguration" asp-controller="ReferenceBooks" asp-action="ShoesSizeList">Таблица размеров </a></li>
+                                            <li><a asp-area="Сonfiguration" asp-controller="ReferenceBooks" asp-action="InformationChannelList">Каналы привлечения клиентов </a></li>
+                                        </ul>
+                                    </div>
+                                }
+
+                                @if (User.IsInRole("Дилер") || User.IsInRole("admin"))
+                                {
+                                    <a class="btn btn-sm btn-success" asp-area="CustomerAreas" asp-controller="CustomerAreas" asp-action="CustomerList">Список клиентов </a>
+                                }
+
+                                @if (User.IsInRole("admin"))
+                                {
+                                    <div class="btn-group">
+                                        <button class="btn btn-success dropdown-toggle" data-toggle="dropdown">Обследования <span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a asp-area="ExaminationAreas" asp-controller="ExaminationAreas" asp-action="ExaminationList">Список обследований (дилер) </a></li>
+                                            <li><a asp-area="DesignerAreas" asp-controller="DesignerAreas" asp-action="ExaminationList">Список обследований (модельер)  </a></li>
+                                            <li><a asp-area="ProductionAreas" asp-controller="ProductionAreas" asp-action="ExaminationList">Список обследований (производство) </a></li>
+                                        </ul>
+                                    </div>
+                                }
+
+                                @if (User.IsInRole("Дилер"))
+                                {
+                                    <a class="btn btn-sm btn-success" asp-area="ExaminationAreas" asp-controller="ExaminationAreas" asp-action="ExaminationList">Список обследований </a>
+                                }
+                                @if (User.IsInRole("Модельер"))
+                                {
+                                    <a class="btn btn-sm btn-success" asp-area="DesignerAreas" asp-controller="DesignerAreas" asp-action="ExaminationList">Список обследований </a>
+                                }
+                                @if (User.IsInRole("Производство"))
+                                {
+                                    <a class="btn btn-sm btn-success" asp-area="ProductionAreas" asp-controller="ProductionAreas" asp-action="ExaminationList">Список обследований </a>
+                                }
+                            }
+                        </div>
+                    </div>
+                    <div class="span9">
+                        @RenderBody()
+                        <hr />
+                        <footer>
+                            <p>&copy; 2019 - Arvitum</p>
+                        </footer>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <script type="text/javascript">
+
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+
+    </script>
+
+</body>
+</html>

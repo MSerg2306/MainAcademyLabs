@@ -1,0 +1,114 @@
+﻿@model ArvitumNew.Areas.ExaminationAreas.Models.ExaminationCreateViewModel
+@{
+    ViewBag.Title = "Обследование";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (Model.DateExamination!=null)
+{<h4>Обследование №@Model.ExaminationId от @Model.DateExamination</h4><br />}
+<h4>клиент: @ViewBag.CurrentCustomer.FullName</h4>
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
+</head>
+
+<body>
+    <form asp-controller="ExaminationAreas" asp-action="ExaminationCreate">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        @using (Html.BeginForm())
+        {
+            <div class="form-group">
+                <input type="hidden" asp-for="ExaminationId" />
+                <input type="hidden" asp-for="UserId" />
+                <input type="hidden" asp-for="CustomerId" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Reason" class="col-md-2 control-label">Причина обращения в центр</label>
+                <div class="col-md-10">
+                    <textarea asp-for="Reason" class="form-control"></textarea><br />
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Diagnosis" class="col-md-2 control-label">Диагноз</label>
+                <div class="col-md-10">
+                    <textarea asp-for="Diagnosis" class="form-control"></textarea><br />
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="ShoesTypeName" class="col-md-2 control-label">Тип изделия</label>
+                <div class="col-md-4">
+                    <select asp-for="ShoesTypeName" asp-items="ViewBag.ShoesTypeName" class="form-control"></select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Size" class="col-md-2 control-label">Размер</label>
+                <div class="col-md-4">
+                    <select asp-for="Size" asp-items="ViewBag.Size" class="form-control"></select><br />
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="CoatingTypeName" class="col-md-2 control-label">Тип покрытия</label>
+                <div class="col-md-4">
+                    <select asp-for="CoatingTypeName" asp-items="ViewBag.CoatingTypeName" class="form-control"></select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="CoatingThicknessName" class="col-md-2 control-label">Толщина изделия</label>
+                <div class="col-md-4">
+                    <select asp-for="CoatingThicknessName" asp-items="ViewBag.CoatingThicknessName" class="form-control"></select><br />
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Note" class="col-md-2 control-label">Примечание</label>
+                <div class="col-md-10">
+                    <textarea asp-for="Note" class="form-control"></textarea><br />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 control-label"></label>
+                <div class="col-md-4">
+                    @Html.CheckBoxFor(x => x.Express)
+                    @Html.LabelFor(x => x.Express)
+                </div>
+            </div>
+            @if (User.IsInRole("admin"))
+            {
+                <div class="form-group">
+                    <label class="col-md-2 control-label"></label>
+                    <div class="col-md-4">
+                        @Html.CheckBoxFor(x => x.Activ)
+                        @Html.LabelFor(x => x.Activ)
+                    </div>
+                </div>
+            }
+            <br />
+            <div class="col-md-12 form-group">
+                <button name="submit" type="submit" class="btn btn-primary" value="Foto">
+                    <span class="glyphicon glyphicon-inbox"></span>
+                    Обработать фото
+                </button>
+                <button name="submit" type="submit" class="btn btn-warning" value="Pay">
+                    <span class="glyphicon glyphicon-shopping-cart"></span>
+                    Оплатить
+                </button>
+                <button name="submit" type="submit" class="btn btn-success" value="Save">
+                    <span class="glyphicon glyphicon-floppy-saved"></span>
+                    Сохранить
+                </button>
+                <button name="submit" type="submit" class="btn btn-danger" value="Delete">
+                    <span class="glyphicon glyphicon-trash"></span>
+                    Удалить
+                </button>
+                <button name="submit" type="submit" class="btn btn-info" value="Cansel">
+                    <span class="glyphicon glyphicon-new-window"></span>
+                    Назад
+                </button>
+            </div>
+        }
+    </form>
+</body>
+</html>

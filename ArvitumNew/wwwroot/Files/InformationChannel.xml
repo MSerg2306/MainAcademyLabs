@@ -1,0 +1,102 @@
+﻿<ArrayOfInformationChannelForXML>
+  <InformationChannelForXML>
+    <InformationChannelId>1</InformationChannelId>
+    <InformationChannelName>-Источник привлечения клиентов не определен-</InformationChannelName>
+  </InformationChannelForXML>
+  <InformationChannelForXML>
+    <InformationChannelId>2</InformationChannelId>
+    <InformationChannelName>Спортивные магазины</InformationChannelName>
+  </InformationChannelForXML>
+  <InformationChannelForXML>
+    <InformationChannelId>3</InformationChannelId>
+    <InformationChannelName>Фитнес клубы</InformationChannelName>
+  </InformationChannelForXML>
+  <InformationChannelForXML>
+    <InformationChannelId>4</InformationChannelId>
+    <InformationChannelName>Подологи</InformationChannelName>
+  </InformationChannelForXML>
+  <InformationChannelForXML>
+    <InformationChannelId>5</InformationChannelId>
+    <InformationChannelName>Ортопеды</InformationChannelName>
+  </InformationChannelForXML>
+  <InformationChannelForXML>
+    <InformationChannelId>6</InformationChannelId>
+    <InformationChannelName>Частные мед.учреждения</InformationChannelName>
+  </InformationChannelForXML>
+  <InformationChannelForXML>
+    <InformationChannelId>7</InformationChannelId>
+    <InformationChannelName>Частные детские учреждения</InformationChannelName>
+  </InformationChannelForXML>
+  <InformationChannelForXML>
+    <InformationChannelId>8</InformationChannelId>
+    <InformationChannelName>Государственные детские учреждения</InformationChannelName>
+  </InformationChannelForXML>
+  <InformationChannelForXML>
+    <InformationChannelId>9</InformationChannelId>
+    <InformationChannelName>Спортивные Федирации</InformationChannelName>
+  </InformationChannelForXML>
+  <InformationChannelForXML>
+    <InformationChannelId>10</InformationChannelId>
+    <InformationChannelName>Выездные event</InformationChannelName>
+  </InformationChannelForXML>
+  <InformationChannelForXML>
+    <InformationChannelId>11</InformationChannelId>
+    <InformationChannelName>Facebook</InformationChannelName>
+  </InformationChannelForXML>
+  <InformationChannelForXML>
+    <InformationChannelId>12</InformationChannelId>
+    <InformationChannelName>Instagram</InformationChannelName>
+  </InformationChannelForXML>
+  <InformationChannelForXML>
+    <InformationChannelId>13</InformationChannelId>
+    <InformationChannelName>Sms</InformationChannelName>
+  </InformationChannelForXML>
+  <InformationChannelForXML>
+    <InformationChannelId>14</InformationChannelId>
+    <InformationChannelName>Сайт</InformationChannelName>
+  </InformationChannelForXML>
+  <InformationChannelForXML>
+    <InformationChannelId>15</InformationChannelId>
+    <InformationChannelName>Колл центр</InformationChannelName>
+  </InformationChannelForXML>
+  <InformationChannelForXML>
+    <InformationChannelId>16</InformationChannelId>
+    <InformationChannelName>Сарафан</InformationChannelName>
+  </InformationChannelForXML>
+  <InformationChannelForXML>
+    <InformationChannelId>17</InformationChannelId>
+    <InformationChannelName>Партнёры</InformationChannelName>
+  </InformationChannelForXML>
+  <InformationChannelForXML>
+    <InformationChannelId>18</InformationChannelId>
+    <InformationChannelName>Франшиза</InformationChannelName>
+  </InformationChannelForXML>
+  <InformationChannelForXML>
+    <InformationChannelId>19</InformationChannelId>
+    <InformationChannelName>Центры реабилитации</InformationChannelName>
+  </InformationChannelForXML>
+  <InformationChannelForXML>
+    <InformationChannelId>20</InformationChannelId>
+    <InformationChannelName>Реабилитологи</InformationChannelName>
+  </InformationChannelForXML>
+  <InformationChannelForXML>
+    <InformationChannelId>21</InformationChannelId>
+    <InformationChannelName>Производители индивидуальной обуви</InformationChannelName>
+  </InformationChannelForXML>
+  <InformationChannelForXML>
+    <InformationChannelId>22</InformationChannelId>
+    <InformationChannelName>Обувные магазины</InformationChannelName>
+  </InformationChannelForXML>
+  <InformationChannelForXML>
+    <InformationChannelId>23</InformationChannelId>
+    <InformationChannelName>Ремонт и реставрация одежды</InformationChannelName>
+  </InformationChannelForXML>
+  <InformationChannelForXML>
+    <InformationChannelId>24</InformationChannelId>
+    <InformationChannelName>Ортосалоны</InformationChannelName>
+  </InformationChannelForXML>
+  <InformationChannelForXML>
+    <InformationChannelId>25</InformationChannelId>
+    <InformationChannelName>Спортивные секции</InformationChannelName>
+  </InformationChannelForXML>
+</ArrayOfInformationChannelForXML>
