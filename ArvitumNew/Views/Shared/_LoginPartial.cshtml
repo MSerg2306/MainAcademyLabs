@@ -1,0 +1,233 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+
+    <style>
+
+        .btn .badge {
+            position: relative;
+            top: -1px;
+        }
+
+        .badge-pill {
+            padding-right: 0.6em;
+            padding-left: 0.6em;
+            border-radius: 10rem;
+        }
+
+        .badge-primary {
+            color: #fff;
+            background-color: #007bff;
+        }
+
+            .badge-primary[href]:hover, .badge-primary[href]:focus {
+                color: #fff;
+                text-decoration: none;
+                background-color: #0062cc;
+            }
+
+        .badge-secondary {
+            color: #fff;
+            background-color: #6c757d;
+        }
+
+            .badge-secondary[href]:hover, .badge-secondary[href]:focus {
+                color: #fff;
+                text-decoration: none;
+                background-color: #545b62;
+            }
+
+        .badge-success {
+            color: #fff;
+            background-color: #28a745;
+        }
+
+            .badge-success[href]:hover, .badge-success[href]:focus {
+                color: #fff;
+                text-decoration: none;
+                background-color: #1e7e34;
+            }
+
+        .badge-info {
+            color: #fff;
+            background-color: #17a2b8;
+        }
+
+            .badge-info[href]:hover, .badge-info[href]:focus {
+                color: #fff;
+                text-decoration: none;
+                background-color: #117a8b;
+            }
+
+        .badge-warning {
+            color: #212529;
+            background-color: #ffc107;
+        }
+
+            .badge-warning[href]:hover, .badge-warning[href]:focus {
+                color: #212529;
+                text-decoration: none;
+                background-color: #d39e00;
+            }
+
+        .badge-danger {
+            color: #fff;
+            background-color: #dc3545;
+        }
+
+            .badge-danger[href]:hover, .badge-danger[href]:focus {
+                color: #fff;
+                text-decoration: none;
+                background-color: #bd2130;
+            }
+
+        .badge-light {
+            color: #212529;
+            background-color: #f8f9fa;
+        }
+
+            .badge-light[href]:hover, .badge-light[href]:focus {
+                color: #212529;
+                text-decoration: none;
+                background-color: #dae0e5;
+            }
+
+        .badge-dark {
+            color: #fff;
+            background-color: #343a40;
+        }
+
+            .badge-dark[href]:hover, .badge-dark[href]:focus {
+                color: #fff;
+                text-decoration: none;
+                background-color: #1d2124;
+            }    </style>
+
+</head>
+<body>
+    <nav class="navbar navbar-light" style="background-color: #5cb85c;">
+        <div class="container">
+            <ul class="nav navbar-nav">
+                <li><a href="~/Home/Index" class="navbar-brand">Главная</a></li>
+            </ul>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a asp-area="Identity" asp-controller="Users" asp-action="ChangePersonPassword" asp-route-name="@User.Identity.Name">Hello @User.Identity.Name!</a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    @if (User.IsInRole("admin") || User.IsInRole("Модельер"))
+                    {
+                        <li>
+                            <a asp-area="DesignerAreas" asp-controller="DesignerAreas" asp-action="ExaminationList" asp-route-examinationStatus="3">
+                                <span class="glyphicon glyphicon-shopping-cart"> </span>
+                                <span id="payCount" class="badge">0</span>
+                            </a>
+                        </li>
+                    }
+                    @if (User.IsInRole("admin") || User.IsInRole("Производство"))
+                    {
+                        <li>
+                            <a asp-area="ProductionAreas" asp-controller="ProductionAreas" asp-action="ExaminationList" asp-route-examinationStatus="5">
+                                <span class="glyphicon glyphicon-wrench"> </span>
+                                <span id="makeCount" class="badge">0</span>
+                            </a>
+                        </li>
+                    }
+                    @if (User.IsInRole("admin") || User.IsInRole("Дилер"))
+                    {
+                        <li>
+                            <a asp-area="ExaminationAreas" asp-controller="ExaminationAreas" asp-action="ExaminationList" asp-route-examinationStatus="8">
+                                <span class="glyphicon glyphicon-gift"> </span>
+                                <span id="deliveryCount" class="badge">0</span>
+                            </a>
+                        </li>
+                    }
+                    <li>
+                        <form method="post" asp-area="Identity" asp-controller="Account" asp-action="LogOff">
+                            <button type="submit" class="btn btn-link navbar-btn navbar-link">Logout</button>
+                        </form>
+                    </li>
+                </ul>
+            }
+            else
+            {
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a asp-area="Identity" asp-controller="Account" asp-action="Login">Login</a></li>
+                    <!--<li><a asp-area="Identity" asp-controller="Account" asp-action="Register">Register</a></li>-->
+                </ul>
+            }
+        </div>
+    </nav>
+
+    @if (User.IsInRole("admin") || User.IsInRole("Дилер") || User.IsInRole("Модельер") || User.IsInRole("Производство"))
+    {
+        <script>
+            function show() {
+                $.ajax({
+                    url: "/paycount",
+                    cache: false,
+                    success: function (html) {
+                        $("#payCount").html(html);
+                    }
+                });
+                $.ajax({
+                    url: "/paycolor",
+                    cache: false,
+                    success: function (html) {
+                        $("#payCount").removeClass();
+                        $("#payCount").toggleClass(html);
+                    }
+                });
+                $.ajax({
+                    url: "/makecount",
+                    cache: false,
+                    success: function (html) {
+                        $("#makeCount").html(html);
+                    }
+                });
+                $.ajax({
+                    url: "/makecolor",
+                    cache: false,
+                    success: function (html) {
+                        $("#makeCount").removeClass();
+                        $("#makeCount").toggleClass(html);
+                    }
+                });
+                $.ajax({
+                    url: "/deliverycount",
+                    cache: false,
+                    success: function (html) {
+                        $("#deliveryCount").html(html);
+                    }
+                });
+                $.ajax({
+                    url: "/deliverycolor",
+                    cache: false,
+                    success: function (html) {
+                        $("#deliveryCount").removeClass();
+                        $("#deliveryCount").toggleClass(html);
+                    }
+                });
+            }
+            
+            $(document).ready(function () {
+                show();
+                setInterval('show()', 15000);
+            });
+        </script>
+    }
+
+</body>
+</html>

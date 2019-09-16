@@ -1,0 +1,82 @@
+﻿@using ArvitumNew.Areas.Сonfiguration.Models
+@model CityWorkPlaceViewModel
+@addTagHelper "*, ArvitumNew"
+@{
+    ViewBag.Title = "Список рабочих мест";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Справочник Медецинских центров</h2>
+
+<!-- кусок фильтра по названию и компании-->
+<form method="get">
+    <div class="form-inline">
+
+        <div class="form-group col-md-3">
+            <label class="control-label">Рабочее место:</label>
+            @Html.TextBox("name", Model.FilterViewModel.SelectedNameCity, htmlAttributes: new { @class = "form-control" })
+        </div>
+        <div class="form-group col-md-3">
+            <label class="control-label">Город:</label>
+            @Html.DropDownList("city", Model.FilterViewModel.Citys as SelectList, htmlAttributes: new { @class = "form-control" })
+        </div>
+        <div class="form-group col-md-3">
+            <input type="submit" value="Фильтр" class="btn btn-sm btn-primary" name="submit" />
+        </div>
+        <div class="form-group col-md-3">
+            <a class="btn btn-sm btn-success" asp-area="Сonfiguration" asp-controller="CityWorkPlace" asp-action="CreateWorkPlace">
+                Добавить Мед.Центр
+            </a>
+            <a class="btn btn-sm btn-success" asp-area="Сonfiguration" asp-controller="CityWorkPlace" asp-action="CreateCity">
+                Добавить город
+            </a>
+        </div>
+    </div>
+</form>
+
+<h3> </h3>
+
+<table class="table">
+    <!-- кусок сортировки по колонкам -->
+    <tr>
+        <th>
+            <a asp-action="Index" asp-route-sortOrder="@(Model.SortViewModel.WorkPlaceNameSort)"
+               asp-route-name="@(Model.FilterViewModel.SelectedNameCity)"
+               asp-route-company="@(Model.FilterViewModel.SelectedCity)">Город</a>
+        </th>
+        <th>
+            Подразделение
+        </th>
+        <th>
+            Адрес
+        </th>
+        <th> </th>
+    </tr>
+
+    <!-- тело таблицы -->
+    @foreach (var workPlaces in Model.WorkPlaces)
+    {
+        <tr>
+            <td>@workPlaces.City.NameCity</td>
+            <td>@workPlaces.NameWorkPlace</td>
+            <td>@workPlaces.Address</td>
+
+            <td>
+                <form asp-action="Delete" asp-route-id="@workPlaces.WorkPlaceId" method="post">
+                    <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-id="@workPlaces.WorkPlaceId">Изменить</a>
+                    <button type="submit" class="btn btn-sm btn-danger">
+                        Удалить
+                    </button>
+                </form>
+            </td>
+        </tr>
+    }
+</table>
+
+    <!-- постраничная навигация через tag-хелпер-->
+    <page-link page-model="Model.PageViewModel" page-action="Index"
+               page-url-name="@(Model.FilterViewModel.SelectedNameCity)"
+               page-url-company="@(Model.FilterViewModel.SelectedCity)"
+               page-url-sortorder="@(Model.SortViewModel.Current)"></page-link>
+
+

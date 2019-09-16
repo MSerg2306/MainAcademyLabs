@@ -1,0 +1,38 @@
+﻿<ArrayOfShoesTypeForXML>
+  <ShoesTypeForXML>
+    <ShoesTypeId>1</ShoesTypeId>
+    <ShoesTypeName>-Тип изделия не определен-</ShoesTypeName>
+  </ShoesTypeForXML>
+  <ShoesTypeForXML>
+    <ShoesTypeId>2</ShoesTypeId>
+    <ShoesTypeName>Коррекция</ShoesTypeName>
+  </ShoesTypeForXML>
+  <ShoesTypeForXML>
+    <ShoesTypeId>3</ShoesTypeId>
+    <ShoesTypeName>Профилактика</ShoesTypeName>
+  </ShoesTypeForXML>
+  <ShoesTypeForXML>
+    <ShoesTypeId>4</ShoesTypeId>
+    <ShoesTypeName>Спорт - бег</ShoesTypeName>
+  </ShoesTypeForXML>
+  <ShoesTypeForXML>
+    <ShoesTypeId>5</ShoesTypeId>
+    <ShoesTypeName>Спорт - ходьба</ShoesTypeName>
+  </ShoesTypeForXML>
+  <ShoesTypeForXML>
+    <ShoesTypeId>6</ShoesTypeId>
+    <ShoesTypeName>Спорт - пяточная шпора</ShoesTypeName>
+  </ShoesTypeForXML>
+  <ShoesTypeForXML>
+    <ShoesTypeId>7</ShoesTypeId>
+    <ShoesTypeName>Спорт - теннис</ShoesTypeName>
+  </ShoesTypeForXML>
+  <ShoesTypeForXML>
+    <ShoesTypeId>8</ShoesTypeId>
+    <ShoesTypeName>Спорт - ролики</ShoesTypeName>
+  </ShoesTypeForXML>
+  <ShoesTypeForXML>
+    <ShoesTypeId>9</ShoesTypeId>
+    <ShoesTypeName>Спорт - заловые виды спорта</ShoesTypeName>
+  </ShoesTypeForXML>
+</ArrayOfShoesTypeForXML>

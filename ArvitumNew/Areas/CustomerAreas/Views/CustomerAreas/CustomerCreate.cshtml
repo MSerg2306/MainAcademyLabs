@@ -1,0 +1,74 @@
+﻿@model ArvitumNew.Areas.CustomerAreas.Models.CustomerCreateViewModel
+@{
+    ViewBag.Title = "Создание нового клиента";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Создание нового клиента</h2>
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap-formhelpers-phone.js"></script>
+</head>
+
+<body>
+    <form method="post" asp-controller="CustomerAreas" asp-action="CustomerCreate">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="NameWorkPlace" class="col-md-2 control-label">Мед.центр</label>
+            <div class="col-md-10">
+                <select asp-for="NameWorkPlace" asp-items="ViewBag.workPlaces" class="form-control"></select><br />
+            </div>
+            <span asp-validation-for="NameWorkPlace"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="FirstName" class="col-md-2 control-label">Фимилия</label>
+            <div class="col-md-4">
+                <input type="text" asp-for="FirstName" class="form-control" /><br />
+            </div>
+            <span asp-validation-for="FirstName"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="LastName" class="col-md-2 control-label">Имя отчество</label>
+            <div class="col-md-4">
+                <input type="text" asp-for="LastName" class="form-control" /><br />
+            </div>
+            <span asp-validation-for="LastName"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Birthday" class="col-md-2 control-label">День рождения</label>
+            <div class="col-md-4">
+                <input type="date" asp-for="Birthday" class="form-control" /><br />
+            </div>
+            <span asp-validation-for="Birthday"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Phone" class="col-md-2 control-label">Телефон</label>
+            <div class="col-md-4">
+                <input type="text" asp-for="Phone" class="form-control input-medium bfh-phone" data-format="+38 (ddd) ddd-dd-dd" /><br />
+            </div>
+            <span asp-validation-for="Phone"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Email" class="col-md-2 control-label">Email</label>
+            <div class="col-md-4">
+                <input type="email" asp-for="Email" class="form-control" /><br />
+            </div>
+            <span asp-validation-for="Email"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="InformationChannelName" class="col-md-2 control-label">Канал</label>
+            <div class="col-md-4">
+                <select asp-for="InformationChannelName" asp-items="ViewBag.informationChannels" class="form-control"></select><br />
+            </div>
+            <span asp-validation-for="InformationChannelName"></span>
+        </div>
+        <div class="form-group">
+            <button name="submit" type="submit" class="btn btn-success" value="AddRecord">Добавить</button>
+        </div>
+    </form>
+</body>
+</html>

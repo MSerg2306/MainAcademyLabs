@@ -1,0 +1,30 @@
+﻿@model ArvitumNew.Areas.Identity.Models.EditUserViewModel
+@{
+    ViewBag.Title = "Редактирование данных пользователя";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Редактирование данных пользователя</h2>
+
+<form asp-action="Edit" asp-controller="Users">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-group">
+        <input type="hidden" asp-for="Id" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Name" class="control-label">Name</label>
+        <input type="text" asp-for="Name" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Email" class="control-label">Email</label>
+        <input type="text" asp-for="Email" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="WorkPlace" class="control-label">Подразделение</label><br />
+        <select asp-for="WorkPlace" asp-items="ViewBag.workPlaces"></select>
+        <span asp-validation-for="WorkPlace"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Сохранить" class="btn btn-default" />
+    </div>
+</form>

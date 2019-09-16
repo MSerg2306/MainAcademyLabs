@@ -1,0 +1,152 @@
+﻿@using ArvitumNew.Areas.ExaminationAreas.Models
+@model ExaminationListViewModel
+@addTagHelper "*, ArvitumNew"
+@{
+    ViewBag.Title = "Список обследований";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.7/css/tether.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.7/js/tether.min.js"></script>
+</head>
+
+<body>
+
+    <h2>Список обследований</h2>
+
+    <!-- кусок фильтра по названию и компании-->
+    <form method="get">
+        <div class="form-row">
+            <div class="form-group col-md-10">
+                @if (User.IsInRole("admin"))
+                {
+                    @if (ViewBag.currentCustomerId == null)
+                    {
+                        <div class="form-group col-md-3">
+                            <label asp-for="FilterViewModel.WorkPlaces" class="control-label col-form-label-sm">Мед.центр: </label>
+                            @Html.DropDownList("workPlace", Model.FilterViewModel.WorkPlaces as SelectList, htmlAttributes: new { @class = "form-control form-control-sm" })
+                        </div>
+                    }
+                }
+                @if (ViewBag.currentCustomerId == null)
+                {
+                    <div class="form-group col-md-2">
+                        <label asp-for="FilterViewModel.SelectedFullName" class="control-label col-form-label-sm">#Клиента: </label>
+                        @Html.TextBox("customerId", Model.FilterViewModel.SelectedCustomerId, htmlAttributes: new { @class = "form-control form-control-sm" })
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label asp-for="FilterViewModel.SelectedFullName" class="control-label col-form-label-sm">ФИО: </label>
+                        @Html.TextBox("fullName", Model.FilterViewModel.SelectedFullName, htmlAttributes: new { @class = "form-control form-control-sm" })
+                    </div>
+                }
+                <div class="form-group col-md-3">
+                    <label asp-for="FilterViewModel.SelectedDateExamination" class="control-label col-form-label-sm">Дата обследования: </label>
+                    <div>
+                        <input type="date" name="dateExamination" asp-for="FilterViewModel.SelectedDateExamination" class="form-control form-control-sm" /><br />
+                    </div>
+                </div>
+                <div class="form-group col-md-2">
+                    <input type="submit" value="Фильтр" class="btn btn-primary btn-sm" name="submit" />
+                </div>
+            </div>
+            @if (ViewBag.currentCustomerId != null)
+            {
+                <div class="form-group col-md-2">
+                    <a class="btn btn-sm btn-success" asp-area="ExaminationAreas" asp-controller="ExaminationAreas" asp-action="ExaminationCreate" asp-route-currentCustomerId="@Model.CurrentCustomerId">
+                        Новое обследование
+                    </a>
+                </div>
+            }
+        </div>
+    </form>
+
+    <table class="table">
+        <!-- кусок сортировки по колонкам -->
+        <tr>
+            @if (User.IsInRole("admin"))
+            {
+                <th>Мед.Центр</th>
+            }
+            <th>#Клиента</th>
+            <th>ФИО</th>
+            <th>
+                <a asp-action="ExaminationList" asp-route-sortOrder="@(Model.SortViewModel.DateExaminationSort)"
+                   asp-route-dateExamination="@(Model.FilterViewModel.SelectedDateExamination)"
+                   asp-route-customerId="@(Model.FilterViewModel.SelectedCustomerId)"
+                   asp-route-fullName="@(Model.FilterViewModel.SelectedFullName)"
+                   asp-route-workPlace="@(Model.FilterViewModel.SelectedWorkPlace)">Дата обследования</a>
+            </th>
+            @if (User.IsInRole("admin"))
+            {
+                <th>ФИО Сотрудника</th>
+                <th>Активен</th>
+            }
+            <th>Статус</th>
+            <th> </th>
+            <th> </th>
+        </tr>
+
+        <!-- тело таблицы -->
+        @foreach (var examinations in Model.Examinations)
+        {
+            <tr>
+                @if (User.IsInRole("admin"))
+                {
+                    <td>@examinations.Сustomer.WorkPlace.NameWorkPlace</td>
+                }
+                <td>@examinations.Сustomer.CustomerId</td>
+                <td>@examinations.Сustomer.FullName</td>
+                <td>@examinations.DateExamination.Value.ToString("d")</td>
+                @if (User.IsInRole("admin"))
+                {
+                    <td>@examinations.User.UserName</td>
+                    <td>@examinations.Activ</td>
+                }
+                <td>@examinations.ExaminationStatus.ExaminationStatusName</td>
+                <td>
+                    <div data-toggle="tooltip" data-placement="down">
+                        <a title="Редактировать"
+                           class="btn btn-sm btn-success" asp-area="ExaminationAreas" asp-controller="ExaminationAreas" asp-action="ExaminationCreate" asp-route-examinationId="@examinations.ExaminationId">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </a>
+                    </div>
+                </td>
+                <td>
+                    @if (examinations.ExaminationStatusId == 8)
+                    {
+                        <div data-toggle="tooltip" data-placement="down">
+                            <a title="Отдан клиенту"
+                               class="btn btn-sm btn-warning"
+                               asp-area="ExaminationAreas"
+                               asp-controller="ExaminationAreas"
+                               asp-action="ExaminationChangeStatus"
+                               asp-route-examinationId="@examinations.ExaminationId"
+                               asp-route-statusId="8">
+                                <span class="glyphicon glyphicon-transfer"></span>
+                            </a>
+                        </div>
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+
+    <!-- постраничная навигация через tag-хелпер-->
+    <page-link page-model="Model.PageViewModel" page-action="Index"
+               page-url-dateExamination="@(Model.FilterViewModel.SelectedDateExamination)"
+               page-url-fullName="@(Model.FilterViewModel.SelectedFullName)"
+               page-url-customerId="@(Model.FilterViewModel.SelectedCustomerId)"
+               page-url-workPlace="@(Model.FilterViewModel.SelectedWorkPlace)"
+               page-url-sortorder="@(Model.SortViewModel.Current)"></page-link>
+
+    <script type="text/javascript">
+
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,20 @@
+﻿@model ArvitumNew.Areas.Identity.Models.ChangeRoleViewModel
+@using Microsoft.AspNetCore.Identity
+@{
+    ViewData["Title"] = "EditRole";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Изменение ролей для пользователя @Model.UserName (@Model.UserEmail)</h2>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" name="userId" value="@Model.UserId" />
+    <div class="form-group">
+        @foreach (IdentityRole role in Model.AllRoles)
+        {
+            <input type="checkbox" name="roles" value="@role.Name"
+                   @(Model.UserRoles.Contains(role.Name) ? "checked=\"checked\"" : "") />@role.Name <br />
+            }
+    </div>
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+</form>

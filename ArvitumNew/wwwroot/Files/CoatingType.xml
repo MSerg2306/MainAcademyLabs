@@ -1,0 +1,66 @@
+﻿<ArrayOfCoatingTypeForXML>
+  <CoatingTypeForXML>
+    <CoatingTypeId>1</CoatingTypeId>
+    <CoatingTypeName>-Тип покрытия не определен-</CoatingTypeName>
+  </CoatingTypeForXML>
+  <CoatingTypeForXML>
+    <CoatingTypeId>2</CoatingTypeId>
+    <CoatingTypeName>SP001</CoatingTypeName>
+  </CoatingTypeForXML>
+  <CoatingTypeForXML>
+    <CoatingTypeId>3</CoatingTypeId>
+    <CoatingTypeName>SP002</CoatingTypeName>
+  </CoatingTypeForXML>
+  <CoatingTypeForXML>
+    <CoatingTypeId>4</CoatingTypeId>
+    <CoatingTypeName>SP003</CoatingTypeName>
+  </CoatingTypeForXML>
+  <CoatingTypeForXML>
+    <CoatingTypeId>5</CoatingTypeId>
+    <CoatingTypeName>SP004</CoatingTypeName>
+  </CoatingTypeForXML>
+  <CoatingTypeForXML>
+    <CoatingTypeId>6</CoatingTypeId>
+    <CoatingTypeName>SP005</CoatingTypeName>
+  </CoatingTypeForXML>
+  <CoatingTypeForXML>
+    <CoatingTypeId>7</CoatingTypeId>
+    <CoatingTypeName>SP006</CoatingTypeName>
+  </CoatingTypeForXML>
+  <CoatingTypeForXML>
+    <CoatingTypeId>8</CoatingTypeId>
+    <CoatingTypeName>SP007</CoatingTypeName>
+  </CoatingTypeForXML>
+  <CoatingTypeForXML>
+    <CoatingTypeId>9</CoatingTypeId>
+    <CoatingTypeName>Durofit Ecru</CoatingTypeName>
+  </CoatingTypeForXML>
+  <CoatingTypeForXML>
+    <CoatingTypeId>10</CoatingTypeId>
+    <CoatingTypeName>Aru Label</CoatingTypeName>
+  </CoatingTypeForXML>
+  <CoatingTypeForXML>
+    <CoatingTypeId>11</CoatingTypeId>
+    <CoatingTypeName>Aru Flower</CoatingTypeName>
+  </CoatingTypeForXML>
+  <CoatingTypeForXML>
+    <CoatingTypeId>12</CoatingTypeId>
+    <CoatingTypeName>Durofit Ceramic</CoatingTypeName>
+  </CoatingTypeForXML>
+  <CoatingTypeForXML>
+    <CoatingTypeId>13</CoatingTypeId>
+    <CoatingTypeName>Durofit Petrol</CoatingTypeName>
+  </CoatingTypeForXML>
+  <CoatingTypeForXML>
+    <CoatingTypeId>14</CoatingTypeId>
+    <CoatingTypeName>Aru Rainbow</CoatingTypeName>
+  </CoatingTypeForXML>
+  <CoatingTypeForXML>
+    <CoatingTypeId>15</CoatingTypeId>
+    <CoatingTypeName>Aru Yellow Press</CoatingTypeName>
+  </CoatingTypeForXML>
+  <CoatingTypeForXML>
+    <CoatingTypeId>16</CoatingTypeId>
+    <CoatingTypeName>Aru Batterfly</CoatingTypeName>
+  </CoatingTypeForXML>
+</ArrayOfCoatingTypeForXML>

@@ -1,0 +1,15 @@
+﻿@model ArvitumNew.Areas.Сonfiguration.Models.CreateCityViewModel
+@{
+    ViewBag.Title = "Добавление города";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<form asp-action="CreateCity" asp-controller="CityWorkPlace">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="NameCity" class="control-label">Название города</label>
+        <input type="text" asp-for="NameCity" class="form-control" />
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Добавить" class="btn btn-default" />
+    </div>
+</form>

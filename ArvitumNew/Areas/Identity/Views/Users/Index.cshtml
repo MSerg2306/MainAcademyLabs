@@ -1,0 +1,77 @@
+﻿@using ArvitumNew.Areas.Identity.Models
+@model ListUserViewModel
+@addTagHelper "*, ArvitumNew"
+@{
+    ViewBag.Title = "Список пользователей";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <h2>Список пользователей</h2>
+
+    <!-- кусок фильтра по названию и компании-->
+    <form method="get">
+        <div class="form-inline">
+            <div class="form-group col-md-3">
+                <label class="control-label">Имя:</label>
+                @Html.TextBox("name", Model.FilterViewModel.SelectedUserName, htmlAttributes: new { @class = "form-control" })
+            </div>
+            <div class="form-group col-md-3">
+                <label class="control-label">Компания:</label>
+                @Html.DropDownList("company", Model.FilterViewModel.WorkPlaces as SelectList, htmlAttributes: new { @class = "form-control" })
+            </div>
+            <div class="form-group col-md-3">
+                <input type="submit" value="Фильтр" class="btn btn-sm btn-primary" name="submit" />
+            </div>
+            <div class="form-group col-md-3">
+                <a class="btn btn-sm btn-success" asp-area="Identity" asp-controller="Users" asp-action="Create">
+                    Добавить пользователя
+                </a>
+            </div>
+        </div>
+    </form>
+
+    <h3> </h3>
+
+    <table class="table">
+        <!-- кусок сортировки по колонкам -->
+        <tr>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@(Model.SortViewModel.UserNameSort)"
+                   asp-route-name="@(Model.FilterViewModel.SelectedUserName)"
+                   asp-route-company="@(Model.FilterViewModel.SelectedWorkPlace)">Имя</a>
+            </th>
+            <th>
+                Email
+            </th>
+            <th>
+                Подразделение
+            </th>
+            <th> </th>
+        </tr>
+
+        <!-- тело таблицы -->
+        @foreach (var user in Model.Users)
+        {
+            <tr>
+                <td>@user.UserName</td>
+                <td>@user.Email</td>
+                <td>@user.WorkPlace.NameWorkPlace</td>
+                <td>
+                    <form asp-action="Delete" asp-route-id="@user.Id" method="post">
+                        <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-id="@user.Id">Изменить</a>
+                        <a class="btn btn-sm btn-primary" asp-action="ChangePassword" asp-route-id="@user.Id">Сменить пароль</a>
+                        <button type="submit" class="btn btn-sm btn-danger">
+                            Удалить
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </table>
+
+    <!-- постраничная навигация через tag-хелпер-->
+    <page-link page-model="Model.PageViewModel" page-action="Index"
+               page-url-name="@(Model.FilterViewModel.SelectedUserName)"
+               page-url-company="@(Model.FilterViewModel.SelectedWorkPlace)"
+               page-url-sortorder="@(Model.SortViewModel.Current)"></page-link>
+

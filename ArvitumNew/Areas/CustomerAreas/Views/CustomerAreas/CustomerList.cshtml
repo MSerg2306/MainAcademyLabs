@@ -1,0 +1,107 @@
+﻿@using ArvitumNew.Areas.CustomerAreas.Models
+@model CustomerListViewModel
+@addTagHelper "*, ArvitumNew"
+@{
+    ViewBag.Title = "Список клиентов";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <h2>Справочник клиентов</h2>
+
+    <!-- кусок фильтра по названию и компании-->
+    <form method="get">
+        <div class="form-row">
+            <div class="form-group col-md-10">
+                <div class="form-group col-md-3">
+                    <label class="control-label col-form-label-sm">Мед.центр: </label>
+                    @Html.DropDownList("workPlace", Model.FilterViewModel.WorkPlaces as SelectList, htmlAttributes: new { @class = "form-control form-control-sm" })
+                </div>
+                <div class="form-group col-md-3">
+                    <label class="control-label col-form-label-sm">#Клиента: </label>
+                    @Html.TextBox("customerId", Model.FilterViewModel.SelectedCustomerId, htmlAttributes: new { @class = "form-control form-control-sm" })
+
+                </div>
+                <div class="form-group col-md-3">
+                    <label class="control-label col-form-label-sm">ФИО: </label>
+                    @Html.TextBox("fullName", Model.FilterViewModel.SelectedFullName, htmlAttributes: new { @class = "form-control form-control-sm" })
+
+                </div>
+                <div class="form-group col-md-3">
+                    <input type="submit" value="Фильтр" class="btn btn-sm btn-primary" name="submit" />
+                </div>
+            </div>
+            <div class="form-group col-md-2">
+                <a class="btn btn-sm btn-success" asp-area="CustomerAreas" asp-controller="CustomerAreas" asp-action="CustomerCreate">
+                    Новый клиент
+                </a>
+            </div>
+        </div>
+    </form>
+
+    <table class="table">
+        <!-- кусок сортировки по колонкам -->
+        <tr>
+            <th>
+                Мед.Центр
+            </th>
+            <th>
+                #Клиента
+            </th>
+            <th>
+                <a asp-action="CustomerList" asp-route-sortOrder="@(Model.SortViewModel.FirstNameSort)"
+                   asp-route-customerId="@(Model.FilterViewModel.SelectedCustomerId)"
+                   asp-route-fullName="@(Model.FilterViewModel.SelectedFullName)"
+                   asp-route-company="@(Model.FilterViewModel.SelectedWorkPlace)">ФИО</a>
+            </th>
+            <th>
+                Телефон
+            </th>
+            @if (User.IsInRole("admin"))
+            {
+                <th>
+                    Активен
+                </th>
+            }
+            <th> </th>
+        </tr>
+
+        <!-- тело таблицы -->
+        @foreach (var сustomers in Model.Customers)
+        {
+        <tr>
+            <td>@сustomers.WorkPlace.NameWorkPlace</td>
+            <td>@сustomers.CustomerId</td>
+            <td>@сustomers.FullName</td>
+            <td>@сustomers.Phone</td>
+            @if (User.IsInRole("admin"))
+            {
+                <td>@сustomers.Activ</td>
+            }
+            <td>
+                <div data-toggle="tooltip" data-placement="down">
+                    <a title="Обследования"
+                       class="btn btn-sm btn-success" asp-area="ExaminationAreas" asp-controller="ExaminationAreas" asp-action="ExaminationList" asp-route-currentCustomerId="@сustomers.CustomerId">
+                        <span class="glyphicon glyphicon-list-alt"></span>
+                    </a>
+                    <a title="Редактирование и удаление данных клиента"
+                       class="btn btn-sm btn-warning" asp-area="CustomerAreas" asp-controller="CustomerAreas" asp-action="CustomerEdit" asp-route-id="@сustomers.CustomerId">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    </a>
+                </div>
+            </td>
+        </tr>
+        }
+    </table>
+
+    <!-- постраничная навигация через tag-хелпер-->
+    <page-link page-model="Model.PageViewModel" page-action="Index"
+               page-url-customerId="@(Model.FilterViewModel.SelectedCustomerId)"
+               page-url-fullName="@(Model.FilterViewModel.SelectedFullName)"
+               page-url-company="@(Model.FilterViewModel.SelectedWorkPlace)"
+               page-url-sortorder="@(Model.SortViewModel.Current)"></page-link>
+
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>

@@ -1,0 +1,80 @@
+﻿@using ArvitumNew.Areas.Сonfiguration.Models
+@model ShoesSizeListViewModel
+@addTagHelper "*, ArvitumNew"
+@{
+    ViewBag.Title = "Справочник размеров";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <h2>Справочник размеров</h2>
+
+    <!-- кусок фильтра по названию и компании-->
+    <form method="get">
+        <div class="form-inline">
+
+            <div class="form-group col-md-10">
+                <label class="control-label">Активен/Скрыт:</label>
+                @Html.DropDownList("activ", Model.SelectedListViev, htmlAttributes: new { @class = "form-control" })
+                
+                <input type="submit" value="Фильтр" class="btn btn-sm btn-primary" name="submit" />
+            </div>
+
+            <div class="form-group col-md-2">
+                <a class="btn btn-sm btn-success" asp-area="Сonfiguration" asp-controller="ReferenceBooks" asp-action="ShoesSizeCreate">
+                    Новый размер
+                </a>
+            </div>
+
+        </div>
+    </form>
+
+    <table class="table">
+        <!-- кусок сортировки по колонкам -->
+        <tr>
+            <th>
+                <a asp-action="ShoesTypeList" asp-route-sortOrder="@(Model.SortViewModel.FootLengthSort)"
+                   asp-route-activ="@(Model.FilterViewModel.SelectedActiv)">
+                    Длина стопы
+                </a>
+            </th>
+            <th>
+                <a asp-action="ShoesTypeList" asp-route-sortOrder="@(Model.SortViewModel.SizeSort)"
+                   asp-route-activ="@(Model.FilterViewModel.SelectedActiv)">
+                    Размер
+                </a>
+            </th>
+            <td>
+                Активен/Скрыт
+            </td>
+            <th> </th>
+        </tr>
+
+        <!-- тело таблицы -->
+        @foreach (var shoesSizes in Model.ShoesSizes)
+        {
+        <tr>
+            <td>@shoesSizes.FootLength</td>
+            <td>@shoesSizes.Size</td>
+            <td>@shoesSizes.Activ</td>
+            <td>
+                <div data-toggle="tooltip" data-placement="down">
+                    <a title="Редактировать"
+                       class="btn btn-sm btn-success" asp-area="Сonfiguration" asp-controller="ReferenceBooks" asp-action="ShoesSizeEdit" asp-route-Id="@shoesSizes.ShoesSizeId">
+                        <span class="glyphicon glyphicon-edit"></span>
+                    </a>
+                </div>
+            </td>
+        </tr>
+        }
+    </table>
+
+    <!-- постраничная навигация через tag-хелпер-->
+    <page-link page-model="Model.PageViewModel" page-action="ShoesSizeList"
+               page-url-activ="@(Model.FilterViewModel.SelectedActiv)"
+               page-url-sortorder="@(Model.SortViewModel.Current)"></page-link>
+
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>

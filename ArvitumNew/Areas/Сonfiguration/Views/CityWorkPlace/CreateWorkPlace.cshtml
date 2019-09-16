@@ -1,0 +1,37 @@
+﻿@model ArvitumNew.Areas.Сonfiguration.Models.CreateWorkPlaceViewModel
+@{
+    ViewBag.Title = "Добавление мед.центра";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<form asp-action="CreateWorkPlace" asp-controller="CityWorkPlace">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="NameWorkPlace" class="control-label">Название мед.центра</label>
+        <input type="text" asp-for="NameWorkPlace" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Address" class="control-label">Адрес</label>
+        <input type="text" asp-for="Address" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="NameCity" class="control-label">Город</label><br />
+        <select asp-for="NameCity" asp-items="ViewBag.citys"></select>
+        <span asp-validation-for="NameCity"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="NameTypeWorkPlace" class="control-label">Тип мед.центра</label><br />
+        <select asp-for="NameTypeWorkPlace" asp-items="ViewBag.typeWorkPlace"></select>
+        <span asp-validation-for="NameTypeWorkPlace"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="LocalPathDll" class="control-label">Путь к папке dll</label>
+        <input type="text" asp-for="LocalPathDll" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="LacalPathImage" class="control-label">Путь к временной папке фото</label>
+        <input type="text" asp-for="LacalPathImage" class="form-control" />
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Добавить" class="btn btn-default" />
+    </div>
+</form>

@@ -1,0 +1,149 @@
+﻿@using ArvitumNew.Areas.DesignerAreas.Models
+@model ExaminationListViewModel
+@addTagHelper "*, ArvitumNew"
+@{
+    ViewBag.Title = "Список обследований";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.7/css/tether.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.7/js/tether.min.js"></script>
+</head>
+
+<body>
+
+    <h2>Список обследований</h2>
+
+    <!-- кусок фильтра по названию и компании-->
+    <form method="get">
+        <div class="form-row">
+            <div class="form-group col-md-10">
+                <div class="form-group col-sm-3">
+                    <label asp-for="FilterViewModel.WorkPlaces" class="control-label col-form-label-sm">Мед.центр: </label>
+                    @Html.DropDownList("workPlace", Model.FilterViewModel.WorkPlaces as SelectList, htmlAttributes: new { @class = "form-control form-control-sm" })
+                </div>
+                <div class="form-group col-sm-3">
+                    <label asp-for="FilterViewModel.SelectedDateExamination" class="control-label col-form-label-sm">Дата: </label>
+                    <div>
+                        <input type="date" name="dateExamination" asp-for="FilterViewModel.SelectedDateExamination" class="form-control form-control-sm" /><br />
+                    </div>
+                </div>
+                <div class="form-group col-sm-3">
+                    <label asp-for="FilterViewModel.SelectedFirstName" class="control-label col-form-label-sm">Клиент: </label>
+                    @Html.TextBox("firstName", Model.FilterViewModel.SelectedFirstName, htmlAttributes: new { @class = "form-control form-control-sm" })
+                </div>
+                <div class="form-group col-sm-3">
+                    <label asp-for="FilterViewModel.ExaminationStatuss" class="control-label col-form-label-sm">Статус: </label>
+                    @Html.DropDownList("examinationStatus", Model.FilterViewModel.ExaminationStatuss as SelectList, htmlAttributes: new { @class = "form-control form-control-sm" })
+                </div>
+            </div>
+            <div class="form-group col-md-2">
+                <input type="submit" value="Фильтр" class="btn btn-primary btn-sm" name="submit" />
+            </div>
+        </div>
+    </form>
+
+    <table class="table">
+        <!-- кусок сортировки по колонкам -->
+        <tr>
+            @if (User.IsInRole("admin") || User.IsInRole("Модельер"))
+            {
+                <th>
+                    Мед.Центр
+                </th>
+            }
+            <th>
+                №
+            </th>
+            <th>
+                <a asp-action="ExaminationList" asp-route-sortOrder="@(Model.SortViewModel.DateExaminationSort)"
+                   asp-route-dateExamination="@(Model.FilterViewModel.SelectedDateExamination)"
+                   asp-route-firstName="@(Model.FilterViewModel.SelectedFirstName)"
+                   asp-route-workPlace="@(Model.FilterViewModel.SelectedWorkPlace)"
+                   asp-route-examinationStatus="@(Model.FilterViewModel.SelectedExaminationStatus)">Дата</a>
+            </th>
+            <th>
+                Имя
+            </th>
+            <th>
+                Срочность
+            </th>
+            <th>
+                Статус
+            </th>
+            <th> </th>
+            <th> </th>
+        </tr>
+
+        <!-- тело таблицы -->
+        @foreach (var examinations in Model.Examinations)
+        {
+            <tr>
+                @if (User.IsInRole("admin") || User.IsInRole("Модельер"))
+                {
+                    <td>@examinations.Сustomer.WorkPlace.NameWorkPlace</td>
+                }
+                <td>@examinations.ExaminationId</td>
+                <td>@examinations.DateExamination.Value.ToString("d")</td>
+                <td>@examinations.Сustomer.FirstName</td>
+                <td>@examinations.Express</td>
+                <td>@examinations.ExaminationStatus.ExaminationStatusName</td>
+                <td>
+                    @switch (examinations.ExaminationStatusId)
+                    {
+                        case 3:
+                            {
+                                <div data-toggle="tooltip" data-placement="down">
+                                    <a title="Выгрузить"
+                                       class="btn btn-sm btn-success" asp-area="DesignerAreas" asp-controller="DesignerAreas" asp-action="ExaminationDownload" asp-route-examinationId="@examinations.ExaminationId">
+                                        <span class="glyphicon glyphicon-floppy-save"></span>
+                                    </a>
+                                </div>
+                                break;
+                            }
+                        case 4:
+                            {
+                                <div data-toggle="tooltip" data-placement="down">
+                                    <a title="Передан на производство"
+                                       class="btn btn-sm btn-primary" asp-area="DesignerAreas" asp-controller="DesignerAreas" asp-action="ExaminationMake" asp-route-examinationId="@examinations.ExaminationId">
+                                        <span class="glyphicon glyphicon-wrench"></span>
+                                    </a>
+                                </div>
+                                break;
+                            }
+                    }
+                </td>
+                <td>
+                    @if (examinations.ExaminationStatusId != 4)
+                    {
+                        <div data-toggle="tooltip" data-placement="down">
+                            <a title="Редактировать"
+                               class="btn btn-sm btn-warning" asp-area="DesignerAreas" asp-controller="DesignerAreas" asp-action="ExaminationEdit" asp-route-examinationId="@examinations.ExaminationId">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </a>
+                        </div>
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+
+    <!-- постраничная навигация через tag-хелпер-->
+    <page-link page-model="Model.PageViewModel" page-action="Index"
+               page-url-dateExamination="@(Model.FilterViewModel.SelectedDateExamination)"
+               page-url-firstName="@(Model.FilterViewModel.SelectedFirstName)"
+               page-url-workPlace="@(Model.FilterViewModel.SelectedWorkPlace)"
+               page-url-examinationStatus="@(Model.FilterViewModel.SelectedExaminationStatus)"
+               page-url-sortorder="@(Model.SortViewModel.Current)"></page-link>
+
+    <script type="text/javascript">
+
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+
+    </script>
+
+</body>
+</html>
